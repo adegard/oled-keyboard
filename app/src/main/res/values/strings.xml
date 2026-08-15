@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">OLED Tastiera IT</string>
+    <string name="ime_label">OLED Tastiera IT</string>
+    <string name="subtitle">Tastiera italiana QWERTY, senza suggerimenti, pensata per display OLED.</string>
+    <string name="enable_hint">1. Apri le impostazioni di sistema, seleziona "OLED Tastiera IT" e rendila la tastiera predefinita.</string>
+    <string name="enable_btn">APRI IMPOSTAZIONI TASTIERA</string>
+    <string name="theme_title">TEMA</string>
+    <string name="theme_oled">OLED · GRIGIO SU NERO</string>
+    <string name="theme_white">BIANCO SU NERO</string>
+    <string name="note">Il cambio tema è immediato: la tastiera si aggiorna alla prossima apertura.</string>
+</resources>
