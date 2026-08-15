@@ -79,7 +79,7 @@ class KeyboardView(context: Context) : View(context) {
                     KeyType.ENTER -> key.label = enterLabel
                     KeyType.SHIFT -> key.label = if (capsLock) "⇪" else "⇧"
                     KeyType.CHAR -> {
-                        if (key.longPress.isNotEmpty() && key.code != null && key.code!!.length == 1) {
+                        if (key.code != null && key.code!!.length == 1) {
                             key.label = if (shiftOn) key.code!!.uppercase() else key.code
                         }
                     }

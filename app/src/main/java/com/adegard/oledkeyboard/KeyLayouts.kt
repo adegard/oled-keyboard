@@ -72,7 +72,7 @@ object KeyLayouts {
         return Key(
             type = KeyType.CHAR,
             id = "char_$lower",
-            label = ch.toString(),
+            label = lower,
             code = lower,
             longPress = ItalianLayout.accents[lower] ?: emptyList()
         )
