@@ -29,7 +29,15 @@ jobs:
         uses: gradle/actions/setup-gradle@v4
 
       - name: Build debug APK
-        run: ./gradlew --no-daemon assembleDebug 2>&1 | tee build.log; exit ${PIPESTATUS[0]}
+        run: |
+          for i in 1 2 3; do
+            ./gradlew --no-daemon assembleDebug 2>&1 | tee build.log
+            rc=${PIPESTATUS[0]}
+            if [ $rc -eq 0 ]; then exit 0; fi
+            echo "build attempt $i failed (rc=$rc), retrying in 15s..."
+            sleep 15
+          done
+          exit 1
 
       - name: Rename APK
         shell: bash
