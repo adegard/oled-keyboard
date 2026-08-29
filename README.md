@@ -42,3 +42,7 @@ L'APK si trova in `app/build/outputs/apk/debug/`.
 
 `.github/workflows/build-apk.yml` compila l'APK a ogni push su `main` e pubblica
 l'artefatto; con un tag `v*` crea anche una Release GitHub con l'APK.
+
+---
+
+For an overview of all my other projects, see https://adegard.github.io/blog/
