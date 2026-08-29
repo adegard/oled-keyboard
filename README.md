@@ -1,3 +1,5 @@
+[![Buy me a coffee](https://cdn.buymeacoffee.com/buttons/v2/default-red.png)](https://www.buymeacoffee.com/adegard)
+
 # OLED Tastiera IT
 
 Un'app Android (Kotlin) che installa una tastiera di sistema:
