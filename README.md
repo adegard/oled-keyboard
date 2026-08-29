@@ -9,6 +9,8 @@ Un'app Android (Kotlin) che installa una tastiera di sistema:
 - **Tema OLED**: grigio chiaro su nero totale, oppure bianco su nero, con pulsante toggle nelle impostazioni
 - Icone/tasti disegnati via Canvas, nessuna dipendenza esterna
 
+![Screenshot](screenshot.png)
+
 ## Installazione
 
 Scarica l'APK più recente dal flusso di lavoro GitHub (Actions → Artifact) oppure
