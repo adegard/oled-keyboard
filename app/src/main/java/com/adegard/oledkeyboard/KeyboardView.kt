@@ -67,15 +67,10 @@ class KeyboardView(context: Context) : View(context) {
     private fun dp(v: Float): Float = v * resources.displayMetrics.density
 
     private fun rebuild() {
-        val toggleLabel = when (currentMode) {
-            KeyboardMode.LETTERS -> "?123"
-            KeyboardMode.SYMBOLS -> "😊"
-            KeyboardMode.EMOJI -> "ABC"
-        }
         rows = when (currentMode) {
-            KeyboardMode.LETTERS -> KeyLayouts.letters(toggleLabel)
-            KeyboardMode.SYMBOLS -> KeyLayouts.symbols(toggleLabel)
-            KeyboardMode.EMOJI -> KeyLayouts.emoji(toggleLabel)
+            KeyboardMode.LETTERS -> KeyLayouts.letters("?123")
+            KeyboardMode.SYMBOLS -> KeyLayouts.symbols("😊", "ABC")
+            KeyboardMode.EMOJI -> KeyLayouts.emoji("ABC")
         }
         rows.forEach { row ->
             row.forEach { key ->
@@ -257,7 +252,10 @@ class KeyboardView(context: Context) : View(context) {
             KeyType.TOGGLE_LAYOUT -> {
                 currentMode = when (currentMode) {
                     KeyboardMode.LETTERS -> KeyboardMode.SYMBOLS
-                    KeyboardMode.SYMBOLS -> KeyboardMode.EMOJI
+                    KeyboardMode.SYMBOLS -> {
+                        if (key.id == "toggle_emoji") KeyboardMode.EMOJI
+                        else KeyboardMode.LETTERS
+                    }
                     KeyboardMode.EMOJI -> KeyboardMode.LETTERS
                 }
                 rebuild()

@@ -79,7 +79,7 @@ object KeyLayouts {
         )
     }
 
-    fun symbols(symbolLabel: String): List<List<Key>> {
+    fun symbols(emojiLabel: String, lettersLabel: String): List<List<Key>> {
         val digits = "1234567890".map { ch ->
             Key(KeyType.CHAR, "digit_$ch", ch.toString(), code = ch.toString())
         }
@@ -92,11 +92,11 @@ object KeyLayouts {
         return listOf(
             digits,
             symbols,
-            listOf(Key(KeyType.TOGGLE_LAYOUT, "toggle", symbolLabel, weight = 1.4f)) +
+            listOf(Key(KeyType.TOGGLE_LAYOUT, "toggle_emoji", emojiLabel, weight = 1.4f)) +
                 extra +
                 listOf(backspaceKey),
             listOf(
-                Key(KeyType.TOGGLE_LAYOUT, "toggle", symbolLabel, weight = 1.3f),
+                Key(KeyType.TOGGLE_LAYOUT, "toggle_letters", lettersLabel, weight = 1.3f),
                 commaKey,
                 Key(KeyType.SPACE, "space", "", weight = 5f),
                 dotKey,
