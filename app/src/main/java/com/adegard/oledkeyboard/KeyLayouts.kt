@@ -1,6 +1,7 @@
 package com.adegard.oledkeyboard
 
 enum class KeyType { CHAR, SHIFT, BACKSPACE, SPACE, ENTER, TOGGLE_LAYOUT }
+enum class KeyboardMode { LETTERS, SYMBOLS, EMOJI }
 
 /**
  * A single key. [code] is the committed text for CHAR keys (lowercase form).
@@ -96,6 +97,32 @@ object KeyLayouts {
                 listOf(backspaceKey),
             listOf(
                 Key(KeyType.TOGGLE_LAYOUT, "toggle", symbolLabel, weight = 1.3f),
+                commaKey,
+                Key(KeyType.SPACE, "space", "", weight = 5f),
+                dotKey,
+                Key(KeyType.ENTER, "enter", "⏎", weight = 1.5f)
+            )
+        )
+    }
+
+    fun emoji(toggleLabel: String): List<List<Key>> {
+        val row1 = listOf("😀", "😃", "😄", "😁", "😆", "😅", "🤣", "😂", "🙂", "😊", "😇", "🥰")
+        val row2 = listOf("😍", "🤩", "😎", "🤔", "🤫", "🤭", "😏", "🙄", "😌", "😔", "😴", "😪")
+        val row3 = listOf("👍", "👎", "🙏", "💪", "❤", "🔥", "✨", "🎉", "💯", "👏", "👊")
+
+        fun emojiKey(emoji: String, idx: Int) = Key(
+            type = KeyType.CHAR,
+            id = "emoji_$idx",
+            label = emoji,
+            code = emoji
+        )
+
+        return listOf(
+            row1.mapIndexed { i, e -> emojiKey(e, i) },
+            row2.mapIndexed { i, e -> emojiKey(e, i + 12) },
+            row3.mapIndexed { i, e -> emojiKey(e, i + 24) } + listOf(backspaceKey),
+            listOf(
+                Key(KeyType.TOGGLE_LAYOUT, "toggle", toggleLabel, weight = 1.3f),
                 commaKey,
                 Key(KeyType.SPACE, "space", "", weight = 5f),
                 dotKey,

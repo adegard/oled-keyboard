@@ -4,8 +4,10 @@ import android.content.SharedPreferences
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.inputmethodservice.InputMethodService
+import android.os.Build
 import android.view.KeyEvent
 import android.view.View
+import android.view.WindowInsets
 import android.view.inputmethod.EditorInfo
 
 class OledKeyboardService : InputMethodService() {
@@ -46,17 +48,37 @@ class OledKeyboardService : InputMethodService() {
         view.onBackspace = { deleteChar() }
         view.onBackspaceRepeat = { deleteChar() }
         view.onEnter = { performEnter() }
+        applyNavBarInset()
         window?.window?.setBackgroundDrawable(ColorDrawable(Color.BLACK))
         return view
     }
 
     override fun onStartInputView(editorInfo: EditorInfo?, restarting: Boolean) {
         super.onStartInputView(editorInfo, restarting)
+        applyNavBarInset()
         window?.window?.setBackgroundDrawable(ColorDrawable(Color.BLACK))
         keyboard?.enterLabel = enterLabel()
     }
 
     override fun onEvaluateFullscreenMode(): Boolean = false
+
+    private fun applyNavBarInset() {
+        val win = window?.window ?: return
+        val navHeight = if (Build.VERSION.SDK_INT >= 30) {
+            win.decorView.rootWindowInsets?.getInsets(WindowInsets.Type.navigationBars())?.bottom
+        } else {
+            @Suppress("DEPRECATION")
+            win.decorView.rootWindowInsets?.systemWindowInsetBottom
+        }
+        if (navHeight != null && navHeight > 0) {
+            keyboard?.setBottomInset(navHeight)
+        } else {
+            val resId = resources.getIdentifier("navigation_bar_height", "dimen", "android")
+            if (resId > 0) {
+                keyboard?.setBottomInset(resources.getDimensionPixelSize(resId))
+            }
+        }
+    }
 
     // ---- input helpers --------------------------------------------------
 

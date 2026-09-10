@@ -44,7 +44,7 @@ class KeyboardView(context: Context) : View(context) {
 
     private var rows: List<List<Key>> = emptyList()
     private var keyRects: List<Pair<Key, RectF>> = emptyList()
-    private var symbolMode = false
+    private var currentMode = KeyboardMode.LETTERS
     private var shiftOn = false
     private var capsLock = false
 
@@ -67,11 +67,15 @@ class KeyboardView(context: Context) : View(context) {
     private fun dp(v: Float): Float = v * resources.displayMetrics.density
 
     private fun rebuild() {
-        val toggleLabel = if (symbolMode) "ABC" else "?123"
-        rows = if (symbolMode) {
-            KeyLayouts.symbols(toggleLabel)
-        } else {
-            KeyLayouts.letters(toggleLabel)
+        val toggleLabel = when (currentMode) {
+            KeyboardMode.LETTERS -> "?123"
+            KeyboardMode.SYMBOLS -> "😊"
+            KeyboardMode.EMOJI -> "ABC"
+        }
+        rows = when (currentMode) {
+            KeyboardMode.LETTERS -> KeyLayouts.letters(toggleLabel)
+            KeyboardMode.SYMBOLS -> KeyLayouts.symbols(toggleLabel)
+            KeyboardMode.EMOJI -> KeyLayouts.emoji(toggleLabel)
         }
         rows.forEach { row ->
             row.forEach { key ->
@@ -142,6 +146,13 @@ class KeyboardView(context: Context) : View(context) {
         return super.onApplyWindowInsets(insets)
     }
 
+    fun setBottomInset(px: Int) {
+        if (bottomInset != px) {
+            bottomInset = px
+            requestLayout()
+        }
+    }
+
     override fun onDraw(canvas: Canvas) {
         canvas.drawColor(theme.bg)
         keyRects.forEach { (key, rect) ->
@@ -157,8 +168,13 @@ class KeyboardView(context: Context) : View(context) {
             canvas.drawRoundRect(rect, dp(4f), dp(4f), paint)
 
             paint.color = if (isSpecial) theme.specialLabel else theme.label
+            val isEmoji = key.id.startsWith("emoji_")
             paint.typeface = if (key.type == KeyType.CHAR) Typeface.DEFAULT else Typeface.DEFAULT_BOLD
-            paint.textSize = if (key.type == KeyType.CHAR) dp(21f) else dp(15f)
+            paint.textSize = when {
+                isEmoji -> dp(22f)
+                key.type == KeyType.CHAR -> dp(21f)
+                else -> dp(15f)
+            }
             paint.textAlign = Paint.Align.CENTER
             val baseline = rect.centerY() - (paint.ascent() + paint.descent()) / 2
             canvas.drawText(key.label, rect.centerX(), baseline, paint)
@@ -239,7 +255,11 @@ class KeyboardView(context: Context) : View(context) {
             KeyType.ENTER -> onEnter?.invoke()
 
             KeyType.TOGGLE_LAYOUT -> {
-                symbolMode = !symbolMode
+                currentMode = when (currentMode) {
+                    KeyboardMode.LETTERS -> KeyboardMode.SYMBOLS
+                    KeyboardMode.SYMBOLS -> KeyboardMode.EMOJI
+                    KeyboardMode.EMOJI -> KeyboardMode.LETTERS
+                }
                 rebuild()
             }
 

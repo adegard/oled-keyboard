@@ -7,6 +7,7 @@ Un'app Android (Kotlin) che installa una tastiera di sistema:
 - Layout **QWERTY italiano** con lettere accentate (à è é ì ò ù …) su pressione lunga
 - **Nessun suggerimento / correzione automatica**
 - **Tema OLED**: grigio chiaro su nero totale, oppure bianco su nero, con pulsante toggle nelle impostazioni
+- **Emoji**: 35 emoji comuni (facce, gesti, cuori) con accesso diretto dalla tastiera
 - Icone/tasti disegnati via Canvas, nessuna dipendenza esterna
 
 ![Screenshot](screenshot.png)
@@ -29,6 +30,7 @@ dalla release taggata `v*`.
 | Pressione lunga su vocale | Lettere accentate italiane |
 | Pressione lunga su `⌫` | Cancellazione ripetuta |
 | `?123` | Cifre e simboli (`€` incluso) |
+| `😊` | Emoji (ciclo: ABC → ?123 → 😊 → ABC) |
 
 ## Build
 
